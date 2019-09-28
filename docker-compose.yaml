@@ -1,0 +1,60 @@
+version: '3.4'
+
+services:
+
+  openhab2:
+    build:
+      context: ./oh250M3
+      dockerfile: Dockerfile
+      args:
+        OPENHAB_URL: "https://openhab.jfrog.io/openhab/libs-milestone-local/org/openhab/distro/openhab/2.5.0.M3/openhab-2.5.0.M3.zip"
+    image: openhab:2.5.0.M3
+    container_name: openhab2
+    working_dir: /openhab
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - openhab_conf:/openhab/conf
+      - openhab_userdata:/openhab/userdata
+      - openhab_addons:/openhab/addons
+      - openhab_lib:/openhab/lib
+    environment:
+      - USER_ID=110
+      - GROUP_ID=114
+    ports:
+      - "8090:8080"
+      - "8443:8443"
+      - "8101:8101"
+      - "5007:5007"
+#    depends_on:
+#      - "influxdb"
+#      - "influxshift"
+#      - "mosquitto"
+#      - "grafana"
+#    restart: unless-stopped
+
+volumes:
+  openhab_conf:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/oh2/openhab2/conf
+      o: bind
+  openhab_userdata:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/oh2/openhab2/userdata
+      o: bind
+  openhab_addons:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/oh2/openhab2/addons
+      o: bind
+  openhab_lib:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/oh2/openhab2/lib
+      o: bind
