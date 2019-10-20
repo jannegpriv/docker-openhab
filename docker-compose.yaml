@@ -4,11 +4,11 @@ services:
 
   openhab2:
     build:
-      context: ./oh250M3
+      context: ./oh250M4
       dockerfile: Dockerfile
       args:
-        OPENHAB_URL: "https://openhab.jfrog.io/openhab/libs-milestone-local/org/openhab/distro/openhab/2.5.0.M3/openhab-2.5.0.M3.zip"
-    image: openhab:2.5.0.M3
+        OPENHAB_URL: "https://openhab.jfrog.io/openhab/libs-milestone-local/org/openhab/distro/openhab/2.5.0.M4/openhab-2.5.0.M4.zip"
+    image: openhab:2.5.0.M4
     container_name: openhab2
     working_dir: /openhab
     volumes:
