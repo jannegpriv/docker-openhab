@@ -2,30 +2,38 @@ version: '3.4'
 
 services:
 
-  openhab2:
+  openhab3:
     build:
-      context: ./oh250M4
+      context: ./oh310m3
       dockerfile: Dockerfile
       args:
-        OPENHAB_URL: "https://openhab.jfrog.io/openhab/libs-milestone-local/org/openhab/distro/openhab/2.5.0.M4/openhab-2.5.0.M4.zip"
-    image: openhab:2.5.0.M4
-    container_name: openhab2
+        OPENHAB_URL: "https://openhab.jfrog.io/openhab/libs-milestone-local/org/openhab/distro/openhab/3.1.0.M3/openhab-3.1.0.M3.zip"
+        JAVA_VERSION: 11
+        OPENHAB_VERSION: 3.1.0.M3
+    image: openhab:3.1.0M3
+    container_name: openhab3
     working_dir: /openhab
+#    devices:
+#      - /dev/bus/usb:/dev/bus/usb
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - openhab_conf:/openhab/conf
       - openhab_userdata:/openhab/userdata
       - openhab_addons:/openhab/addons
-      - openhab_lib:/openhab/lib
+#      - openhab_lib:/openhab/lib
     environment:
       - USER_ID=110
       - GROUP_ID=114
+      - OPENHAB_HTTP_PORT=8080
+      - OPENHAB_HTTPS_PORT=8443
+      - EXTRA_JAVA_OPTS=-Duser.timezone=Europe/Stockholm
     ports:
       - "8090:8080"
       - "8443:8443"
       - "8101:8101"
       - "5007:5007"
+    privileged: true
 #    depends_on:
 #      - "influxdb"
 #      - "influxshift"
@@ -52,9 +60,9 @@ volumes:
       type: none
       device: /opt/oh2/openhab2/addons
       o: bind
-  openhab_lib:
-    driver: local
-    driver_opts:
-      type: none
-      device: /opt/oh2/openhab2/lib
-      o: bind
+#  openhab_lib:
+#    driver: local
+#    driver_opts:
+#      type: none
+#      device: /opt/oh2/openhab2/lib
+#      o: bind
